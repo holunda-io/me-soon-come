@@ -15,7 +15,8 @@ import java.util.List;
 @RestController
 @SpringBootApplication
 @Slf4j
-public class MeSoonCommeApplication {
+public class
+MeSoonCommeApplication {
 
     @Value("${elasticsearch.host:localhost}")
     private String elasticsearchHost;

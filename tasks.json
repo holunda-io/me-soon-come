@@ -1,0 +1,160 @@
+[
+  {
+    "task": {
+      "id": "9e71693e-3217-11e9-ab51-6a9ecdcb82c1",
+      "name": "Amend\nApproval Request\n",
+      "description": "Please amend the approval request AR-a4bd9250-38c5-4459-b1e4-32749cf5696d.",
+      "url": "http://localhost:8080/example-process-approval/tasks/amend-request/id/9e71693e-3217-11e9-ab51-6a9ecdcb82c1",
+      "formKey": "amend-request",
+      "candidateGroups": [
+        "muppetshow"
+      ],
+      "candidateUsers": [
+        "kermit"
+      ],
+      "assignee": "kermit",
+      "processName": "Request Approval",
+      "createTime": "2019-02-16T18:21:03.538Z",
+      "dueDate": null,
+      "followUpDate": null,
+      "businessKey": "AR-a4bd9250-38c5-4459-b1e4-32749cf5696d",
+      "priority": 50,
+      "payload": {
+        "request": "AR-a4bd9250-38c5-4459-b1e4-32749cf5696d",
+        "comment": "this is a comment"
+      }
+    },
+    "dataEntries": [
+      {
+        "entryType": "io.holunda.camunda.taskpool.example.ApprovalRequest",
+        "entryId": "AR-a4bd9250-38c5-4459-b1e4-32749cf5696d",
+        "payload": {
+          "amount": 10000,
+          "currency": "USD",
+          "id": "AR-a4bd9250-38c5-4459-b1e4-32749cf5696d",
+          "subject": "Salary increase",
+          "applicant": "piggy"
+        }
+      }
+    ]
+  },
+  {
+    "task": {
+      "id": "f9210c6b-3217-11e9-ab51-6a9ecdcb82c1",
+      "name": "Amend\nApproval Request\n",
+      "description": "Please amend the approval request AR-7eba326d-da25-410a-b9bd-4b7560381cc4.",
+      "url": "http://localhost:8080/example-process-approval/tasks/amend-request/id/f9210c6b-3217-11e9-ab51-6a9ecdcb82c1",
+      "formKey": "amend-request",
+      "candidateGroups": [
+        "muppetshow"
+      ],
+      "candidateUsers": [
+        "kermit"
+      ],
+      "assignee": "kermit",
+      "processName": "Request Approval",
+      "createTime": "2019-02-16T18:23:35.684Z",
+      "dueDate": null,
+      "followUpDate": null,
+      "businessKey": "AR-7eba326d-da25-410a-b9bd-4b7560381cc4",
+      "priority": 50,
+      "payload": {
+        "request": "AR-7eba326d-da25-410a-b9bd-4b7560381cc4",
+        "comment": "this is a comment"
+      }
+    },
+    "dataEntries": [
+      {
+        "entryType": "io.holunda.camunda.taskpool.example.ApprovalRequest",
+        "entryId": "AR-7eba326d-da25-410a-b9bd-4b7560381cc4",
+        "payload": {
+          "amount": 10000,
+          "currency": "USD",
+          "id": "AR-7eba326d-da25-410a-b9bd-4b7560381cc4",
+          "subject": "Salary increase",
+          "applicant": "piggy"
+        }
+      }
+    ]
+  },
+  {
+    "task": {
+      "id": "d39703fe-3207-11e9-ab51-6a9ecdcb82c1",
+      "name": "Approve Request",
+      "description": "Please approve request AR-82eda556-98fc-45be-82ad-c88e829d6dde from kermit on behalf of piggy.",
+      "url": "http://localhost:8080/example-process-approval/tasks/approve-request/id/d39703fe-3207-11e9-ab51-6a9ecdcb82c1",
+      "formKey": "approve-request",
+      "candidateGroups": [
+        "muppetshow"
+      ],
+      "candidateUsers": [
+        "fozzy",
+        "gonzo"
+      ],
+      "assignee": null,
+      "processName": "Request Approval",
+      "createTime": "2019-02-16T16:28:00.755Z",
+      "dueDate": "2019-06-26T07:55:00Z",
+      "followUpDate": "2023-06-26T07:55:00Z",
+      "businessKey": "AR-82eda556-98fc-45be-82ad-c88e829d6dde",
+      "priority": 23,
+      "payload": {
+        "request": "AR-82eda556-98fc-45be-82ad-c88e829d6dde",
+        "originator": "kermit"
+      }
+    },
+    "dataEntries": [
+      {
+        "entryType": "io.holunda.camunda.taskpool.example.ApprovalRequest",
+        "entryId": "AR-82eda556-98fc-45be-82ad-c88e829d6dde",
+        "payload": {
+          "amount": 10000,
+          "currency": "USD",
+          "id": "AR-82eda556-98fc-45be-82ad-c88e829d6dde",
+          "subject": "Salary increase",
+          "applicant": "piggy"
+        }
+      }
+    ]
+  },
+  {
+    "task": {
+      "id": "52fc71e0-3202-11e9-ab51-6a9ecdcb82c1",
+      "name": "Approve Request",
+      "description": "Please approve request AR-e0ff36ea-7606-4fa7-8db8-4d01d4d08cb4 from kermit on behalf of piggy.",
+      "url": "http://localhost:8080/example-process-approval/tasks/approve-request/id/52fc71e0-3202-11e9-ab51-6a9ecdcb82c1",
+      "formKey": "approve-request",
+      "candidateGroups": [
+        "muppetshow"
+      ],
+      "candidateUsers": [
+        "fozzy",
+        "gonzo"
+      ],
+      "assignee": null,
+      "processName": "Request Approval",
+      "createTime": "2019-02-16T15:48:37.511Z",
+      "dueDate": "2019-06-26T07:55:00Z",
+      "followUpDate": "2023-06-26T07:55:00Z",
+      "businessKey": "AR-e0ff36ea-7606-4fa7-8db8-4d01d4d08cb4",
+      "priority": 23,
+      "payload": {
+        "request": "AR-e0ff36ea-7606-4fa7-8db8-4d01d4d08cb4",
+        "originator": "kermit"
+      }
+    },
+    "dataEntries": [
+      {
+        "entryType": "io.holunda.camunda.taskpool.example.ApprovalRequest",
+        "entryId": "AR-e0ff36ea-7606-4fa7-8db8-4d01d4d08cb4",
+        "payload": {
+          "amount": 10000,
+          "currency": "USD",
+          "id": "AR-e0ff36ea-7606-4fa7-8db8-4d01d4d08cb4",
+          "subject": "Salary increase",
+          "applicant": "piggy"
+        }
+      }
+    ]
+  }
+]

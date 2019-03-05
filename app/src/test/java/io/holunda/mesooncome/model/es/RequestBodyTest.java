@@ -1,4 +1,4 @@
-package io.holunda.mesooncome.model.es.search;
+package io.holunda.mesooncome.model.es;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,13 +38,12 @@ public class RequestBodyTest {
                 .build();
         log.info(mapper.writeValueAsString(requestBody));
 
-        String json = new Scanner(RequestBodyTest.class.getResourceAsStream("/sort.json"), "UTF-8").useDelimiter("\\A").next();
+        String json = new Scanner(RequestBodyTest
+                .class
+                .getResourceAsStream("/es/request_body.json"), "UTF-8").useDelimiter("\\A").next();
 
-        TypeReference<RequestBody> typeRef
-                = new TypeReference<RequestBody>() {
-        };
 
-        RequestBody requestBodyFromFile = mapper.readValue(json, typeRef);
+        RequestBody requestBodyFromFile = mapper.readValue(json, RequestBody.class);
         assertThat(requestBody, is(requestBodyFromFile));
     }
 

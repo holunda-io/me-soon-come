@@ -32,6 +32,7 @@ services:
     environment:
       ELASTICSEARCH_HOST: elasticsearch
       ELASTICSEARCH_PORT: 9200
+      MONGODB_HOST: mongo
 
 networks:
 

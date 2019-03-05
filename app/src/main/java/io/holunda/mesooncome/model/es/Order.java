@@ -1,4 +1,4 @@
-package io.holunda.mesooncome.model.es.search;
+package io.holunda.mesooncome.model.es;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

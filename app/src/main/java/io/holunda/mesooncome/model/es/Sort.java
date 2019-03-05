@@ -1,4 +1,6 @@
-package io.holunda.mesooncome.model.es.search;
+package io.holunda.mesooncome.model.es;
+
+import io.holunda.mesooncome.model.db.SortEntity;
 
 import java.util.HashMap;
 
@@ -6,6 +8,15 @@ public class Sort extends HashMap<String, Order> {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public static Sort from(SortEntity entity) {
+
+        return Sort.builder()
+                .order(entity.getPath(), Order.builder()
+                        .order(entity.getOrder())
+                        .build())
+                .build();
     }
 
     public static class Builder {

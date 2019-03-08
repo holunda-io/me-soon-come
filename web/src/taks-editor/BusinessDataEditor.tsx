@@ -3,18 +3,14 @@ import * as React from "react";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 
-import { TaskItem, Task } from "../shared/interfaces";
-import { Grid, Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, Typography, CardActions, Collapse, TextField } from "@material-ui/core";
+import {Card, CardHeader, Avatar, IconButton, CardContent, Typography, CardActions, Collapse} from "@material-ui/core";
 
-import moment from "moment";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import classnames from "classnames";
 import TaskRowTextField from "../task-list/TaskRowTextField";
-import TaskRowTextListField from "../task-list/TaskRowTextListField";
-
 
 export interface IBusinessDataEditorProps {
     dataEntry: any;

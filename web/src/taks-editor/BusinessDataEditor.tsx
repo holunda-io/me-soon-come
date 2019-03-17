@@ -26,8 +26,6 @@ const styles = (theme: Theme) =>
 
     });
 
-
-const date_format: string = "DD.MM.YYYY";
 class BusinessDataEditor extends React.Component<IBusinessDataEditorProps, IBusinessDataEditorState> {
     constructor(props: IBusinessDataEditorProps) {
         super(props);

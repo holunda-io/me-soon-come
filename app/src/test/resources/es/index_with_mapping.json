@@ -1,0 +1,39 @@
+{
+  "task": {
+    "mappings": {
+      "_doc": {
+        "properties": {
+          "task": {
+            "properties": {
+              "description": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "dueDate": {
+                "type": "date"
+              },
+              "payload": {
+                "properties": {
+                  "request": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

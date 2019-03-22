@@ -1,14 +1,12 @@
-package io.holunda.mesooncome.admin.command;
+package io.holunda.mesooncome.task.command;
 
 import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @Value
-public class AddSortOrderPropertyCommand {
-
+public class CreateTaskCommand {
     @TargetAggregateIdentifier
     private final String id;
-    private final String path;
-    private final String order;
+    private final Object task;
 
 }

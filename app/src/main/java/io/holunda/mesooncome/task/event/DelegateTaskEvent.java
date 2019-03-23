@@ -3,7 +3,7 @@ package io.holunda.mesooncome.task.event;
 import lombok.Value;
 
 @Value
-public class CreateTaskEvent {
+public class DelegateTaskEvent {
     private final String id;
-    private final Object task;
+    private final String userId;
 }

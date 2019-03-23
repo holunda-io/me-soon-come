@@ -19,6 +19,7 @@
     <modules>
         <module>app</module>
         <module>web</module>
+        <module>admin-web</module>
     </modules>
 
     <dependencyManagement>

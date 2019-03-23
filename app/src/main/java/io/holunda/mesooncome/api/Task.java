@@ -14,6 +14,8 @@ public interface Task {
 
     String getAssignee();
 
+    void setAssignee(String userId);
+
     String getOwner();
 
     String getDelegationState();

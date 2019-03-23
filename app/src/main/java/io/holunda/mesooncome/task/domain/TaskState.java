@@ -1,5 +1,5 @@
 package io.holunda.mesooncome.task.domain;
 
 public enum TaskState {
-    CREATED;
+    NEW, UNCLAIMED, ASSIGNED, UNASSIGENED, DELEGATED, COMPLETED, DELETED;
 }

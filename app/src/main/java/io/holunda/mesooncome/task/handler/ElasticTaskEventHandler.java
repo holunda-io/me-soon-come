@@ -3,6 +3,7 @@ package io.holunda.mesooncome.task.handler;
 import io.holunda.mesooncome.config.ElasticSearchProperties;
 import io.holunda.mesooncome.task.command.RegisterTaskCreatedResultCommand;
 import io.holunda.mesooncome.task.event.CreateTaskEvent;
+import io.holunda.mesooncome.task.event.UpdateTaskEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -28,5 +29,10 @@ public class ElasticTaskEventHandler {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<TaskAddedResult> response = restTemplate.postForEntity(url, request, TaskAddedResult.class);
         commandGateway.send(new RegisterTaskCreatedResultCommand(event.getId(), response.getBody()));
+    }
+
+    @EventHandler
+    public void handle(UpdateTaskEvent event) {
+        //TODO
     }
 }

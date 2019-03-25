@@ -2,10 +2,14 @@ package io.holunda.mesooncome.task;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.holunda.mesooncome.api.Task;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DefaultTaskImpl implements Task {
     private String id;
     private String name;

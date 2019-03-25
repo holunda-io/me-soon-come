@@ -29,9 +29,12 @@ public class TaskAggregate {
     private TaskState state = null;
 
     @CommandHandler
-    public TaskAggregate(CreateTaskCommand command) {
-        apply(new CreateTaskEvent(command.getId(),
-                command.getTask()));
+    public TaskAggregate(CreateTaskCommand command, TaskConverter converter) {
+
+        id = command.getId();
+        taskAsObject = command.getTask();
+        task = converter.convertObjectToTask(taskAsObject);
+        apply(new CreateTaskEvent(id, taskAsObject, task));
     }
 
     @CommandHandler
@@ -83,13 +86,6 @@ public class TaskAggregate {
         checkState(NEW, ASSIGNED, DELEGATED, UNASSIGENED);
         apply(new UpdateTaskEvent(command.getId(), command.getTask()));
 
-    }
-
-    @EventSourcingHandler
-    public void on(CreateTaskEvent event, TaskConverter converter) {
-        id = event.getId();
-        taskAsObject = event.getTask();
-        task = converter.convertObjectToTask(taskAsObject);
     }
 
     @EventSourcingHandler

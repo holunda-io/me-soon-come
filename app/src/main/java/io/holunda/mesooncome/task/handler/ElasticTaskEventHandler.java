@@ -25,7 +25,7 @@ public class ElasticTaskEventHandler {
         String url = elasticSearchProperties.getUrl() + "task/_doc?pretty";
         log.info("Url=" + url);
 
-        HttpEntity<Object> request = new HttpEntity<>(event.getTask());
+        HttpEntity<Object> request = new HttpEntity<>(event.getTaskAsObject());
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<TaskAddedResult> response = restTemplate.postForEntity(url, request, TaskAddedResult.class);
         commandGateway.send(new RegisterTaskCreatedResultCommand(event.getId(), response.getBody()));

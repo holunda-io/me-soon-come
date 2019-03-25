@@ -1,0 +1,13 @@
+---
+Test
+---
+!define TEST_SYSTEM {slim}
+
+|import                         |
+|io.holunda.mesooncome.test.task|
+
+|task api test driver                   |
+|id|name|description|create?|claim?|get?|
+|1 |no  |11         |OK     |OK    |OK  |
+|2 |no  |6          |OK     |OK    |OK  |
+|3 |no  |4          |OK     |OK    |OK  |

@@ -16,6 +16,19 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
       - elk
+
+  fitnesse:
+    build:
+      context: fitnesse/
+      args:
+        FITNESSE_VERSION: $FITNESSE_VERSION
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - /Users/christophwolff/src/wlm/test/src/main/resources/:/work/root
+    ports:
+      - "8888:8888"
+    networks:
+      - elk
   mongo:
     image: mongo
     ports:

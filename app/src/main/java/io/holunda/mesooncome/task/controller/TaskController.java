@@ -4,12 +4,16 @@ import io.holunda.mesooncome.api.Task;
 import io.holunda.mesooncome.api.TaskConverter;
 import io.holunda.mesooncome.task.command.*;
 import io.holunda.mesooncome.task.domain.User;
+import io.holunda.mesooncome.task.query.FindTaskById;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -17,6 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TaskController {
     private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
     private final TaskConverter taskConverter;
 
     @RequestMapping(value = "/task/create", method = RequestMethod.POST)
@@ -27,8 +32,8 @@ public class TaskController {
         return id;
     }
 
-    @RequestMapping(value = "/task/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable(name = "id") String id,@RequestBody Object task) {
+    @RequestMapping(value = "/task/{id}/", method = RequestMethod.PUT)
+    public void update(@PathVariable(name = "id") String id, @RequestBody Object task) {
         validateTask(task);
         commandGateway.send(new UpdateTaskCommand(id, task));
     }
@@ -42,6 +47,7 @@ public class TaskController {
     public void unclaim(@PathVariable(name = "id") String id) {
         commandGateway.send(new UnclaimTaskCommand(id));
     }
+
     @RequestMapping(value = "/task/{id}/complete", method = RequestMethod.POST)
     public void complete(@PathVariable(name = "id") String id) {
         commandGateway.send(new CompleteTaskCommand(id));
@@ -57,14 +63,19 @@ public class TaskController {
         commandGateway.send(new SetAssigneeForTaskCommand(id, user.getUserId()));
     }
 
+    @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
+    public Task get(@PathVariable(name = "id") String id) {
+        return queryGateway
+                .query(FindTaskById.builder().id(id).build(), ResponseTypes.instanceOf(Task.class))
+                .join();
+    }
+
 
     private void validateTask(Object taskAsObject) {
         Task task = taskConverter.convertObjectToTask(taskAsObject);
         Objects.requireNonNull(task, "task must not be null");
-        Objects.requireNonNull(task.getId(), "task-id must not be null");
-        Objects.requireNonNull(task.getName(), "task-name must not be null");
-        Objects.requireNonNull(task.getDescription(), "task-description must not be null");
 
-
+        Optional.ofNullable(task.getName()).filter(n -> !n.isEmpty()).orElseThrow(IllegalArgumentException::new);
+        Optional.ofNullable(task.getDescription()).filter(n -> !n.isEmpty()).orElseThrow(IllegalArgumentException::new);
     }
 }

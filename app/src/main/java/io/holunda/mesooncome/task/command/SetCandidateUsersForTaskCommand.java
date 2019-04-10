@@ -1,13 +1,14 @@
 package io.holunda.mesooncome.task.command;
 
-import io.holunda.mesooncome.task.handler.TaskAddedResult;
 import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
+import java.util.List;
+
 @Value
-public class RegisterTaskCreatedResultCommand {
+public class SetCandidateUsersForTaskCommand {
     @TargetAggregateIdentifier
     private final String id;
-    private final TaskAddedResult taskAddedResult;
+    private final List<String> userIds;
 
 }

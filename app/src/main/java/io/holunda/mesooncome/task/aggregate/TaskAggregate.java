@@ -30,23 +30,15 @@ public class TaskAggregate {
 
     @CommandHandler
     public TaskAggregate(CreateTaskCommand command, TaskConverter converter) {
-
-        id = command.getId();
-        taskAsObject = command.getTask();
-        task = converter.convertObjectToTask(taskAsObject);
-        apply(new CreateTaskEvent(id, taskAsObject, task));
-    }
-
-    @CommandHandler
-    public void handle(RegisterTaskCreatedResultCommand command) {
-        apply(new RegisterTaskCreatedResultEvent(command.getId(),
-                command.getTaskAddedResult()));
+        apply(new CreateTaskEvent(command.getId(),
+                command.getTask(),
+                converter.convertObjectToTask(command.getTask())));
     }
 
     @CommandHandler
     public void handle(ClaimTaskCommand command) {
         checkState(NEW, UNASSIGENED, ASSIGNED, DELEGATED);
-        state = ASSIGNED;
+        task.setAssignee(command.getUserId());
         apply(new ClaimTaskEvent(command.getId(),
                 command.getUserId()));
     }
@@ -54,29 +46,37 @@ public class TaskAggregate {
     @CommandHandler
     public void handle(UnclaimTaskCommand command) {
         checkState(ASSIGNED);
-        state = UNASSIGENED;
+        task.setAssignee(null);
         apply(new UnclaimTaskEvent(command.getId()));
     }
 
     @CommandHandler
     public void handle(CompleteTaskCommand command) {
         checkState(ASSIGNED);
-        state = COMPLETED;
         apply(new CompleteTaskEvent(command.getId()));
     }
 
     @CommandHandler
     public void handle(SetAssigneeForTaskCommand command) {
         checkState(NEW, UNASSIGENED, ASSIGNED);
-        state = ASSIGNED;
+        task.setAssignee(command.getUserId());
         apply(new SetAssigneeForTaskEvent(command.getId(),
-                command.getUserId()));
+                command.getUserId(),
+                task));
+    }
+
+    @CommandHandler
+    public void handle(SetCandidateUsersForTaskCommand command) {
+        checkState(NEW, UNASSIGENED);
+        apply(new SetCandidateUsersForTaskEvent(command.getId(),
+                command.getUserIds(),
+                task));
     }
 
     @CommandHandler
     public void handle(DelegateTaskCommand command) {
         checkState(ASSIGNED);
-        state = ASSIGNED;
+        task.setAssignee(command.getUserId());
         apply(new DelegateTaskEvent(command.getId(),
                 command.getUserId()));
     }
@@ -89,47 +89,49 @@ public class TaskAggregate {
     }
 
     @EventSourcingHandler
-    public void on(UpdateTaskEvent event, TaskConverter converter) {
-        taskAsObject = event.getTask();
-        task = converter.convertObjectToTask(taskAsObject);
-    }
+    public void on(CreateTaskEvent event) {
+        id = event.getId();
+        task = event.getTask();
+        taskAsObject = event.getTaskAsObject();
 
-    @EventSourcingHandler
-    public void on(RegisterTaskCreatedResultEvent event) {
-        if (task.getAssignee() == null || task.getAssignee().isEmpty()) {
-            state = NEW;
-        } else {
-            state = ASSIGNED;
+        if (task.getAssignee() != null && !task.getAssignee().isEmpty()) {
+            apply(new SetAssigneeForTaskEvent(id, task.getAssignee(), task));
+        } else if (task.getCandidateUsers() != null && !task.getCandidateUsers().isEmpty()) {
+            apply(new SetCandidateUsersForTaskEvent(id, task.getCandidateUsers(), task));
         }
-    }
 
-    @EventSourcingHandler
-    public void on(ClaimTaskEvent event) {
-        task.setAssignee(event.getUserId());
-
-    }
-
-    @EventSourcingHandler
-    public void on(UnclaimTaskEvent event) {
-        task.setAssignee(null);
-
-    }
-
-    @EventSourcingHandler
-    public void on(SetAssigneeForTaskEvent event) {
-        task.setAssignee(event.getUserId());
-
+        state = NEW;
     }
 
     @EventSourcingHandler
     public void on(DelegateTaskEvent event) {
-        task.setAssignee(event.getUserId());
+        state = ASSIGNED;
+    }
 
+    @EventSourcingHandler
+    public void on(SetCandidateUsersForTaskEvent event) {
+        task.setCandidateUsers(event.getUserIds());
+        state = UNASSIGENED;
+    }
+
+    @EventSourcingHandler
+    public void on(SetAssigneeForTaskEvent event) {
+        state = ASSIGNED;
     }
 
     @EventSourcingHandler
     public void on(CompleteTaskEvent event) {
+        state = COMPLETED;
+    }
 
+    @EventSourcingHandler
+    public void on(UnclaimTaskEvent event) {
+        state = UNASSIGENED;
+    }
+
+    @EventSourcingHandler
+    public void on(ClaimTaskEvent event) {
+        state = ASSIGNED;
     }
 
     private void checkState(TaskState... allowedStates) {

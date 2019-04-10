@@ -1,17 +1,18 @@
 import * as React from "react";
-import { TaskItem } from "../shared/interfaces";
+import { Task, User, ServerSentTaskEvent } from "../shared/interfaces";
 import { ListItem, ListItemText, Typography, ListItemSecondaryAction, Checkbox } from "@material-ui/core";
 
 import moment from "moment";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/es";
 
+import axios from 'axios';
+
 
 
 export interface ITaskListItemProps {
-    taskItem: TaskItem;
+    taskEvent: ServerSentTaskEvent;
     classes: any;
-    handleClick: any;
 }
 
 export interface ITaskListItemState {
@@ -31,22 +32,40 @@ class TaskListItem extends React.Component<ITaskListItemProps, ITaskListItemStat
 
         };
     }
+
+
+    handleClick = (taskEvent: ServerSentTaskEvent) => (event: any) => {
+
+        let id: string = taskEvent.id;
+        let candidateUsers = [{ "userId": "Horst" }, { "userId": "Helga" }];
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:8080/task/' + id + '/candidateUsers',
+            data:
+                candidateUsers
+
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
     public render() {
 
-        const { classes } = this.props;
+        const { classes, taskEvent } = this.props;
+        let task: Task = taskEvent.data;
 
         return (
-            <ListItem key="7"
-                onClick={this.props.handleClick(this.props.taskItem)}
+            <ListItem 
+                onClick={this.handleClick(this.props.taskEvent)}
                 button>
                 <ListItemText
-                    primary={this.props.taskItem.task.name}
+                    primary={task.name}
                     secondary={
                         <React.Fragment>
                             <Typography component="span" className={classes.inline} color="textPrimary">
-                                {moment(this.props.taskItem.task.createTime).format(date_format)}
+                                {moment(task.createTime).format(date_format)}
                             </Typography>
-                            {this.props.taskItem.task.description}
+                            {task.description}
                         </React.Fragment>
                     }
                 /><ListItemSecondaryAction>
@@ -57,7 +76,7 @@ class TaskListItem extends React.Component<ITaskListItemProps, ITaskListItemStat
             </ListItem>
         );
     }
-   
+
 }
 
 export default withStyles(styles)(TaskListItem);

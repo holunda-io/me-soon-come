@@ -12,6 +12,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Data
 @Slf4j
@@ -28,6 +29,16 @@ public class TaskApiTestDriver implements Task {
     private String parentTaskId;
     private String caseInstanceId;
     private String tenantId;
+
+    private String url;
+    private String formKey;
+    private String candidateGroups;
+    private List<String> candidateUsers;
+    private String processName;
+    private String createTime;
+    private String dueDate;
+    private String followUpDate;
+    private String businessKey;
 
     @JsonIgnore
     private String newId;

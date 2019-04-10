@@ -1,51 +1,3 @@
-export interface AppInterface {
-  'key': string;
-  'prozess': string;
-  'taskName': string;
-  'taskDescription'?: string;
-  'creationDate': Date;
-  'dueDate': Date;
-  'modifiedAt': Date;
-  'modifiedBy'?: Date;
-  'priority': 'normal' | 'low' | 'high' | 'blocker';
-  'indicator': 'claimed' | 'group' | 'claimed by other';
-  'candidateGroups'?: string;
-  'attributes'?: string;
-  'targetUrl'?: string;
-  'surce'?: string;
-}
-
-export interface Result {
-  took: number,
-  hits: Hits,
-  timed_out: boolean,
-  _shards: Shards
-}
-export interface Hits {
-  total: number,
-  hits: Hit[],
-  max_score: number
-}
-
-export interface Hit {
-  _index: string,
-  _type: string,
-  _id: string,
-  _score: number,
-  _source: TaskItem
-}
-
-export interface Shards {
-  total: number,
-  successful: number,
-  skipped: number,
-  failed: number
-}
-
-export interface TaskItem {
-  task: Task,
-  dataEntries: any[]
-}
 
 export interface Task {
   id: string,
@@ -65,12 +17,6 @@ export interface Task {
   followUpDate: Date
 }
 
-export interface DataEntry {
-  entryType: string,
-  entryId: string,
-  payload: ApprovalRequest
-}
-
 export interface Payload {
   request: string,
   originator: string,
@@ -84,4 +30,13 @@ export interface ApprovalRequest {
   subject: string,
   applicant: string
 
+}
+
+export interface User {
+  userId: string
+}
+export interface ServerSentTaskEvent {
+  id: string,
+  data: Task,
+  event: string
 }

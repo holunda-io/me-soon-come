@@ -10,7 +10,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Typography from "@material-ui/core/Typography";
 
-import Navbar from "./main-parts/navbar/navbar";
 import { EmptyStateLoginPage } from "./shared/emptyState";
 import Main from "./Main";
 

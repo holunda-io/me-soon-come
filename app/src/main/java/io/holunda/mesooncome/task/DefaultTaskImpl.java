@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,4 +25,5 @@ public class DefaultTaskImpl implements Task {
     private String parentTaskId;
     private String caseInstanceId;
     private String tenantId;
+    private List<String> candidateUsers;
 }

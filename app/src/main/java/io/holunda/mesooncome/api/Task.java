@@ -1,6 +1,7 @@
 package io.holunda.mesooncome.api;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public interface Task {
     @Nonnull
@@ -15,6 +16,10 @@ public interface Task {
     String getAssignee();
 
     void setAssignee(String userId);
+
+    List<String> getCandidateUsers();
+
+    void setCandidateUsers(List<String> userIds);
 
     String getOwner();
 

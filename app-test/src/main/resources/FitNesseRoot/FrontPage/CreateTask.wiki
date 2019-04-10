@@ -1,0 +1,11 @@
+---
+Test
+---
+!define TEST_SYSTEM {slim}
+
+|import                         |
+|io.holunda.mesooncome.test.task|
+
+|task api test driver                                                                                                                                                                                                                                                                                                                                    |
+|id|name                  |description                       |url                                                                                                       |formKey      |candidateGroups|candidateUsers|assignee|processName     |createTime              |dueDate   |followUpDate|businessKey                            |priority|create?|
+|1 |Christian Approval Request|Please amend the approval request.|http://localhost:8080/example-process-approval/tasks/amend-request/id/9e71693e-3217-11e9-ab51-6a9ecdcb82c1|amend-request|[muppetshow]   |              |        |Request Approval|2019-02-16T18:21:03.538Z|2019-02-16|null        |AR-a4bd9250-38c5-4459-b1e4-32749cf5696d|50      |OK     |

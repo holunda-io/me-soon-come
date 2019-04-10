@@ -38,7 +38,6 @@ public class TaskAggregate {
     @CommandHandler
     public void handle(ClaimTaskCommand command) {
         checkState(NEW, UNASSIGENED, ASSIGNED, DELEGATED);
-        task.setAssignee(command.getUserId());
         apply(new ClaimTaskEvent(command.getId(),
                 command.getUserId()));
     }
@@ -46,7 +45,6 @@ public class TaskAggregate {
     @CommandHandler
     public void handle(UnclaimTaskCommand command) {
         checkState(ASSIGNED);
-        task.setAssignee(null);
         apply(new UnclaimTaskEvent(command.getId()));
     }
 
@@ -59,7 +57,6 @@ public class TaskAggregate {
     @CommandHandler
     public void handle(SetAssigneeForTaskCommand command) {
         checkState(NEW, UNASSIGENED, ASSIGNED);
-        task.setAssignee(command.getUserId());
         apply(new SetAssigneeForTaskEvent(command.getId(),
                 command.getUserId(),
                 task));
@@ -76,7 +73,6 @@ public class TaskAggregate {
     @CommandHandler
     public void handle(DelegateTaskCommand command) {
         checkState(ASSIGNED);
-        task.setAssignee(command.getUserId());
         apply(new DelegateTaskEvent(command.getId(),
                 command.getUserId()));
     }
@@ -105,6 +101,7 @@ public class TaskAggregate {
 
     @EventSourcingHandler
     public void on(DelegateTaskEvent event) {
+        task.setAssignee(event.getUserId());
         state = ASSIGNED;
     }
 
@@ -116,6 +113,7 @@ public class TaskAggregate {
 
     @EventSourcingHandler
     public void on(SetAssigneeForTaskEvent event) {
+        task.setAssignee(event.getUserId());
         state = ASSIGNED;
     }
 
@@ -126,11 +124,13 @@ public class TaskAggregate {
 
     @EventSourcingHandler
     public void on(UnclaimTaskEvent event) {
+        task.setAssignee(null);
         state = UNASSIGENED;
     }
 
     @EventSourcingHandler
     public void on(ClaimTaskEvent event) {
+        task.setAssignee(event.getUserId());
         state = ASSIGNED;
     }
 

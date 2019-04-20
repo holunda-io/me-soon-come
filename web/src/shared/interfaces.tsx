@@ -40,3 +40,8 @@ export interface ServerSentTaskEvent {
   data: Task,
   event: string
 }
+
+export default interface Service {
+  getChannel(): IChannelDefinition<any>,
+  connect(): void
+}

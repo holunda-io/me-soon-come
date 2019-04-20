@@ -2,9 +2,7 @@ package io.holunda.mesooncome.task.controller;
 
 
 import io.holunda.mesooncome.api.Task;
-import io.holunda.mesooncome.task.event.CreateTaskEvent;
-import io.holunda.mesooncome.task.event.SetCandidateUsersForTaskEvent;
-import io.holunda.mesooncome.task.event.TaskEvent;
+import io.holunda.mesooncome.task.event.*;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.http.MediaType;
@@ -30,8 +28,9 @@ public class TaskboardController {
 
     private final FluxProcessor processor = DirectProcessor.create().serialize();
     private final FluxSink sink = processor.sink();
-    private Map<String, ServerSentTaskEvent> newTasks = new HashMap<>();
-    private Map<String, ServerSentTaskEvent> unassignedTasks = new HashMap<>();
+    private Map<String, ServerSentTaskEvent> todoList = new HashMap<>();
+    private Map<String, ServerSentTaskEvent> inProgressList = new HashMap<>();
+    private Map<String, ServerSentTaskEvent> doneList = new HashMap<>();
 
 
     @GetMapping(path = "/taskboardEvents", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -40,22 +39,71 @@ public class TaskboardController {
         return processor.map(s -> s);
     }
 
-    @GetMapping(path = "/newTasks", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/todoList", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin("http://localhost:3000")
-    public Collection<ServerSentTaskEvent> getNewTasks() {
-        return newTasks.values();
+    public Collection<ServerSentTaskEvent> getTodoList() {
+        return todoList.values();
     }
 
-    @GetMapping(path = "/unassignedTasks", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(path = "/inProgressList", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin("http://localhost:3000")
-    public Collection<ServerSentTaskEvent> getUnassignedTasks() {
-        return unassignedTasks.values();
+    public Collection<ServerSentTaskEvent> getInProgressList() {
+        return inProgressList.values();
+    }
+
+    @GetMapping(path = "/doneList", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin("http://localhost:3000")
+    public Collection<ServerSentTaskEvent> getDoneList() {
+        return doneList.values();
     }
 
     @EventHandler
     public void handle(CreateTaskEvent event) {
         ServerSentEvent serverSentEvent = createServerSentEvent(event);
-        newTasks.put(event.getId(), ServerSentTaskEvent.from(serverSentEvent));
+        todoList.put(event.getId(), ServerSentTaskEvent.from(serverSentEvent));
+        sink.next(serverSentEvent);
+    }
+
+    @EventHandler
+    public void handle(SetAssigneeForTaskEvent event){
+        ServerSentEvent serverSentEvent = createServerSentEvent(event);
+        todoList.remove(event.getId());
+        inProgressList.put(event.getId(), ServerSentTaskEvent.from(serverSentEvent));
+
+        sink.next(serverSentEvent);
+    }
+
+    @EventHandler
+    public void handle(SetCandidateUsersForTaskEvent event) {
+        ServerSentEvent serverSentEvent = createServerSentEvent(event);
+        sink.next(serverSentEvent);
+    }
+
+    @EventHandler
+    public void handle(ClaimTaskEvent event) {
+        ServerSentEvent serverSentEvent = createServerSentEvent(event);
+        todoList.remove(event.getId());
+        inProgressList.put(event.getId(), ServerSentTaskEvent.from(serverSentEvent));
+
+        sink.next(serverSentEvent);
+    }
+
+    @EventHandler
+    public void handle(UnclaimTaskEvent event) {
+        ServerSentEvent serverSentEvent = createServerSentEvent(event);
+        inProgressList.remove(event.getId());
+        todoList.put(event.getId(), ServerSentTaskEvent.from(serverSentEvent));
+
+        sink.next(serverSentEvent);
+    }
+
+    @EventHandler
+    public void handle(CompleteTaskEvent event) {
+        ServerSentEvent serverSentEvent = createServerSentEvent(event);
+        inProgressList.remove(event.getId());
+        doneList.put(event.getId(), ServerSentTaskEvent.from(serverSentEvent));
+
         sink.next(serverSentEvent);
     }
 
@@ -65,15 +113,6 @@ public class TaskboardController {
                 .data(event.getTask())
                 .event(event.getClass().getSimpleName())
                 .build();
-    }
-
-    @EventHandler
-    public void handle(SetCandidateUsersForTaskEvent event) {
-        ServerSentEvent serverSentEvent = createServerSentEvent(event);
-        newTasks.remove(event.getId());
-        unassignedTasks.put(event.getId(), ServerSentTaskEvent.from(serverSentEvent));
-
-        sink.next(serverSentEvent);
     }
 
 }

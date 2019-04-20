@@ -39,19 +39,21 @@ public class TaskAggregate {
     public void handle(ClaimTaskCommand command) {
         checkState(NEW, UNASSIGENED, ASSIGNED, DELEGATED);
         apply(new ClaimTaskEvent(command.getId(),
-                command.getUserId()));
+                command.getUserId(),
+                task));
     }
 
     @CommandHandler
     public void handle(UnclaimTaskCommand command) {
         checkState(ASSIGNED);
-        apply(new UnclaimTaskEvent(command.getId()));
+        apply(new UnclaimTaskEvent(command.getId(), task));
     }
 
     @CommandHandler
     public void handle(CompleteTaskCommand command) {
         checkState(ASSIGNED);
-        apply(new CompleteTaskEvent(command.getId()));
+        apply(new CompleteTaskEvent(command.getId(),
+                task));
     }
 
     @CommandHandler

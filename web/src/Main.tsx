@@ -4,7 +4,7 @@ import { Grid, Paper } from "@material-ui/core";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import Service from "./shared/interfaces";
-import ServiceImpl from "./shared/service";
+import ServiceImpl from "./shared/ServiceImpl";
 import TodoList from "./task-list/TodoList";
 import InProgressList from "./task-list/InProgressList";
 import DoneList from "./task-list/DoneList";
@@ -27,7 +27,7 @@ class Main extends React.Component<IMainProps, IMainState> {
   constructor(props: IMainProps) {
     super(props);
     this.state = {
-      service : new ServiceImpl("Werner")
+      service : new ServiceImpl()
     };
   }
 
@@ -42,15 +42,15 @@ class Main extends React.Component<IMainProps, IMainState> {
           alignItems="flex-start" className={classes.root}>
           <Grid item xs={3}>
             todo
-            <TodoList />
+            <TodoList service={this.state.service} />
           </Grid>
           <Grid item xs={3}>
             in progress
-            <InProgressList />
+            <InProgressList service={this.state.service} />
           </Grid>
           <Grid item xs={3}>
             done
-            <DoneList />
+            <DoneList service={this.state.service} />
           </Grid>
         </Grid>
       </React.Fragment>

@@ -37,11 +37,23 @@ export interface User {
 }
 export interface ServerSentTaskEvent {
   id: string,
-  data: Task,
-  event: string
+  data: Task
 }
 
 export default interface Service {
-  getChannel(): IChannelDefinition<any>,
-  connect(): void
+  getTodoListChannel():IChannelDefinition<ServerSentTaskEvent>;
+  getInProgressListChannel():IChannelDefinition<ServerSentTaskEvent>;
+  getDoneListChannel():IChannelDefinition<ServerSentTaskEvent>;
+}
+
+export interface ITaskListProps {
+  classes: any;
+  service: Service;
+}
+
+export interface ITaskListState {
+  source: EventSource;
+  tasksAvailable: boolean;
+  taskEvents: ServerSentTaskEvent[];
+  expanded: boolean
 }

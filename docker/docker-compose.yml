@@ -24,7 +24,8 @@ services:
         FITNESSE_VERSION: $FITNESSE_VERSION
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-      - /Users/christophwolff/src/wlm/test/src/main/resources/:/work/root
+      # - ../app-test/src/main/resources/:/fitnesse/work/
+      - ../app-test/src/main/resources:/fitnesse/work/
     ports:
       - "8888:8888"
     networks:

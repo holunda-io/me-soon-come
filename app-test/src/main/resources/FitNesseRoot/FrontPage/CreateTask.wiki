@@ -3,8 +3,11 @@ Test
 ---
 !define TEST_SYSTEM {slim}
 
+!path /fitnesse/libs/app-test-1.0.0-SNAPSHOT.jar
+
 |import                         |
 |io.holunda.mesooncome.test.task|
+
 
 |task api test driver                                                                                                                                                                                                                                                                                                                                     |
 |id|name                   |description                       |url                                                                                                       |formKey      |candidateGroups|candidateUsers|assignee|processName     |createTime              |dueDate   |followUpDate|businessKey                            |priority|create?|

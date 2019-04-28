@@ -1,16 +1,13 @@
 package io.holunda.mesooncome.api;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public interface Task {
-    @Nonnull
+
     String getId();
 
-    @Nonnull
     String getName();
 
-    @Nonnull
     String getDescription();
 
     String getAssignee();

@@ -23,9 +23,8 @@ services:
       args:
         FITNESSE_VERSION: $FITNESSE_VERSION
     volumes:
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-      # - ../app-test/src/main/resources/:/fitnesse/work/
       - ../app-test/src/main/resources:/fitnesse/work/
+      - ../app-test/target:/fitnesse/libs/
     ports:
       - "8888:8888"
     networks:
@@ -34,15 +33,17 @@ services:
     image: mongo
     ports:
       - 27017:27017
+    networks:
+      - elk
   app:
-    build:
-      context: ../app/
+    image: mesooncome/app
     ports:
       - "8080:8080"
     networks:
       - elk
     depends_on:
       - elasticsearch
+      - mongo
     environment:
       ELASTICSEARCH_HOST: elasticsearch
       ELASTICSEARCH_PORT: 9200
